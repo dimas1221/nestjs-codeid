@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { UsersService} from './users.service';
 import { Request } from 'express';
 import * as bcrypt from "bcrypt";
 import { Users } from 'entities/Users';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 // interface CreateUsersTo{
 //     username: string,
@@ -10,6 +11,7 @@ import { Users } from 'entities/Users';
 // }
 
 @Controller('users')
+@UseGuards(AuthGuard)
 export class UsersController {
     constructor (private readonly usersService: UsersService){}
     @Post('createuser')
@@ -19,5 +21,10 @@ export class UsersController {
             return 'error in creating user'
         }
         return 'users created'
+    }
+
+    @Get('findByUsername')
+    async findByUsername( @Param() params){
+        return await this.usersService.findByUsername(params.username)
     }
 }

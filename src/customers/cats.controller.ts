@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { CustomersService } from './customers.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 // interface UpdateCustomers{
 //     cust_name: string,
@@ -11,6 +12,7 @@ export class CatsController {
     constructor (private readonly customersService: CustomersService){}
 
     @Get('customers')
+    @UseGuards(AuthGuard)
     findAll(){
         return this.customersService.findAll()
     }
