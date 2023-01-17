@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards,Res, HttpStatus } from '@nestjs/common';
 import { UsersService} from './users.service';
-import { Request } from 'express';
+import { Request,Response } from 'express';
 import * as bcrypt from "bcrypt";
 import { Users } from 'entities/Users';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -11,7 +11,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 // }
 
 @Controller('users')
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class UsersController {
     constructor (private readonly usersService: UsersService){}
     @Post('createuser')
@@ -22,6 +22,15 @@ export class UsersController {
         }
         return 'users created'
     }
+
+    // @Post('createuser')
+    // async create(@Res() res:Response){
+    //     const user = await this.usersService.create(res)
+    //     if (!user) {
+    //         res.status(HttpStatus.CREATED).send();
+    //     }
+    //     return 'users created'
+    // }
 
     @Get('findByUsername')
     async findByUsername( @Param() params){

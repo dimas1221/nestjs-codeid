@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
 
     const req = context.switchToHttp().getRequest();
       if (!req.headers.authorization){
-          console.log('you are not auth')
+          console.log('you are not auth') 
           return false
       }else{
           let token = req.headers.authorization

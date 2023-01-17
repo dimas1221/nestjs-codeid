@@ -30,4 +30,6 @@ import { AuthController } from './auth/auth.controller';
   controllers: [AppController, UsersController, AuthController],
   providers: [AppService, UsersService, AuthService],
 })
-export class MainModule {}
+export class MainModule {
+  // implement midlleware
+}
