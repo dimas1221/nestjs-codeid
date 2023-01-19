@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Users } from 'entities/Users';
 // interface CreateUsersTo{
@@ -8,10 +17,9 @@ import { Users } from 'entities/Users';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService:AuthService)
-    {}
-    @Post('login')
-    login(@Body() body):Promise<any>{
-        return this.authService.login(body.username, body.password)
-    }
+  constructor(private readonly authService: AuthService) {}
+  @Post('login')
+  login(@Body() body): Promise<any> {
+    return this.authService.login(body.username, body.password);
+  }
 }
