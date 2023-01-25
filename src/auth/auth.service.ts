@@ -14,22 +14,22 @@ export class AuthService {
   ) {}
   async login(username, password) {
     const items = await this.usersService.findByUsername(username);
-    if (items.username) {
+    if (!items) {
+      return { message: 'username not found' };
+    } else {
       if (await bcrypt.compare(password, items.password)) {
         delete items.password;
 
         let token = jwt.sign({ items }, process.env.SECRET_KEY, {
-          expiresIn: '2m', //kadaluarsa 2menit
+          expiresIn: '2h', //kadaluarsa 2menit
         });
         return {
           message: 'berhasil',
           token: token,
         };
       } else {
-        return 'password wrong';
+        return { message: 'password wrong' };
       }
-    } else {
-      return 'username not found';
     }
   }
 }

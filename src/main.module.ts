@@ -1,4 +1,4 @@
-import { Module, MiddlewareConsumer } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -30,9 +30,9 @@ import { AuthMiddleware } from './auth/auth.middleware';
   controllers: [AppController, UsersController, AuthController],
   providers: [AppService, UsersService, AuthService],
 })
-export class MainModule {
+export class MainModule implements NestModule {
   // implement midlleware
-  // configure(consumer: MiddlewareConsumer) {
-  //   consumer.apply(AuthMiddleware).forRoutes('cats');
-  // }
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes();
+  }
 }
