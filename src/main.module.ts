@@ -11,6 +11,8 @@ import { UsersController } from './users/users.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { AuthMiddleware } from './auth/auth.middleware';
+import { RegionsService } from './regions/regions.service';
+import { RegionsController } from './regions/regions.controller';
 
 @Module({
   imports: [
@@ -27,8 +29,8 @@ import { AuthMiddleware } from './auth/auth.middleware';
     GlobalModule,
   ],
 
-  controllers: [AppController, UsersController, AuthController],
-  providers: [AppService, UsersService, AuthService],
+  controllers: [AppController, UsersController, AuthController, RegionsController],
+  providers: [AppService, UsersService, AuthService, RegionsService],
 })
 export class MainModule implements NestModule {
   // implement midlleware
