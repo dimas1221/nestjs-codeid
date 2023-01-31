@@ -8,10 +8,17 @@ import {
   Put,
   Req,
   UseGuards,
+  UploadedFile,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  FileTypeValidator,
+  UseInterceptors,
 } from '@nestjs/common';
 import { RegionsService } from './regions.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { Regions } from 'entities/Regions';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @Controller('regions')
 export class RegionsController {
@@ -43,5 +50,48 @@ export class RegionsController {
   @Delete(':id')
   async removeCust(@Param('id') id: any) {
     return await this.regionsService.removeRegion(id);
+  }
+
+  // @Post('upload')
+  // @UseInterceptors(
+  //   FileInterceptor('file', {
+  //     storage: diskStorage({
+  //       destination: 'uploads',
+  //       filename: (req, file, cb) => {
+  //         const filename: string =
+  //           path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
+  //         const extension: string = path.parse(file.originalname).ext;
+
+  //         cb(null, `${filename}${extension}`);
+  //       },
+  //     }),
+  //   }),
+  // )
+  // uploadFile(@UploadedFile() file): Observable<Object> {
+  //   console.log(file);
+  //   return of({ imagePath: file.path });
+  // }
+
+  @Post('upload')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      dest: 'public/upload',
+      storage: diskStorage({
+        destination: 'public/upload',
+        filename(req, file, cb) {
+          return cb(null, file.originalname);
+        },
+      }),
+    }),
+  )
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: any,
+  ) {
+    await this.regionsService.storeFileInfo(file, body);
+    return {
+      originalname: file.originalname,
+      body,
+    };
   }
 }

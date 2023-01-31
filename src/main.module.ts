@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { GlobalModule } from './global/global.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { Customers } from '../entities/Customers';
+import { Customers } from 'entities/Customers';
 import { UsersService } from './users/users.service';
 import { UsersController } from './users/users.controller';
 import { AuthService } from './auth/auth.service';
@@ -29,7 +29,12 @@ import { RegionsController } from './regions/regions.controller';
     GlobalModule,
   ],
 
-  controllers: [AppController, UsersController, AuthController, RegionsController],
+  controllers: [
+    AppController,
+    UsersController,
+    AuthController,
+    RegionsController,
+  ],
   providers: [AppService, UsersService, AuthService, RegionsService],
 })
 export class MainModule implements NestModule {
